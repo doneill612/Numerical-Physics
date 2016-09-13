@@ -44,10 +44,10 @@ namespace Newtons_Method
             Console.WriteLine("Response 6.c) " +
                 (zero6_c == double.MinValue ? "No root found" : zero6_c.ToString()));
 
-            double zero6_d = FindZero("tanh", -4, 0.000001);
+            double zero6_d = FindZero("tanh", -1, 0.000001);
 
             Console.WriteLine("Response 6.d) " +
-                (zero6_d == double.MinValue ? "No root found" : zero6_d.ToString()));
+                (zero6_d == -123456 ? "No root found" : zero6_d.ToString()));
 
             double zero7 = FindZero("landau", 0.5, 0.00001);
 
@@ -82,7 +82,7 @@ namespace Newtons_Method
         /// <returns></returns>
         static double FindZero(string functionKey, double xStart, double epsilon)
         {
-            Console.WriteLine("NEWTON'S METHOD: Finding zeros of function matching key: " + functionKey + "(x)");
+            Console.WriteLine("NEWTON'S METHOD: Finding zeros of function matching key: " + functionKey);
             Console.WriteLine("Input parameters: x0 = " + xStart + ", eps = " + epsilon);
 
             // Apply "der_" marker to produce the key to the derivative function in the map
@@ -103,7 +103,7 @@ namespace Newtons_Method
             double currentEpsilon = xNext - xCurrent;
 
             // Keep track of the iteration, and define the maximum number of iterations allowed.
-            int iteration = 0, maxIteration = 10000;
+            int iteration = 0, maxIteration = 50;
 
             // Begin iterations -> Continue until desired precision is bested, or iteration limit is reached.
             while (Math.Abs(currentEpsilon) > epsilon && iteration <= maxIteration)
@@ -113,16 +113,13 @@ namespace Newtons_Method
                 currentEpsilon = xNext - xCurrent;
                 zero = xNext;
 
-                if (Math.Abs(xNext - xCurrent) > epsilon)
-                {
-                    xCurrent = xNext;
-                }
+                xCurrent = xNext;
 
                 iteration++;
             }
 
             // Return the last found zero location.
-            return iteration > maxIteration ? double.MinValue : zero; 
+            return iteration > maxIteration ? -123456 : zero; 
         }
 
 
