@@ -47,7 +47,7 @@ namespace Newtons_Method
             double zero6_d = FindZero("tanh", -1, 0.000001);
 
             Console.WriteLine("Response 6.d) " +
-                (zero6_d == -123456 ? "No root found" : zero6_d.ToString()));
+                (zero6_d == double.MinValue ? "No root found" : zero6_d.ToString()));
 
             double zero7 = FindZero("landau", 0.5, 0.00001);
 
@@ -119,7 +119,7 @@ namespace Newtons_Method
             }
 
             // Return the last found zero location.
-            return iteration > maxIteration ? -123456 : zero; 
+            return iteration > maxIteration ? double.MinValue : zero; 
         }
 
 
