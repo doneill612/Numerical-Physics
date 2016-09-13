@@ -40,19 +40,27 @@ namespace Newtons_Method
             double zero6_c = FindZero("sin", 1.55, 0.001);
 
             Console.WriteLine("Response 6.b) " + 
-                (zero6_b == double.MinValue ? "No root found" : zero6_b.ToString()));
+                (zero6_b == double.MinValue ||
+                            double.IsNegativeInfinity(zero6_b) ||
+                            double.IsInfinity(zero6_b) ? "No root found" : zero6_b.ToString()));
             Console.WriteLine("Response 6.c) " +
-                (zero6_c == double.MinValue ? "No root found" : zero6_c.ToString()));
+                (zero6_c == double.MinValue ||
+                            double.IsNegativeInfinity(zero6_c) ||
+                            double.IsInfinity(zero6_c) ? "No root found" : zero6_c.ToString()));
 
             double zero6_d = FindZero("tanh", -1, 0.000001);
 
             Console.WriteLine("Response 6.d) " +
-                (zero6_d == double.MinValue ? "No root found" : zero6_d.ToString()));
+                (zero6_d == double.MinValue || 
+                    double.IsNegativeInfinity(zero6_d) ||
+                    double.IsInfinity(zero6_d) ? "No root found" : zero6_d.ToString()));
 
             double zero7 = FindZero("landau", 0.5, 0.00001);
 
             Console.WriteLine("Response 7) " +
-                (zero7 == double.MinValue ? "No root found" : zero7.ToString()));
+                (zero7 == double.MinValue ||
+                    double.IsNegativeInfinity(zero7) ||
+                    double.IsInfinity(zero7) ? "No root found" : zero7.ToString()));
 
             Console.Read();
 
