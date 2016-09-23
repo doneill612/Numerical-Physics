@@ -36,44 +36,58 @@ namespace Newtons_Method
             Init();
 
             double zero6_b = FindZero("sin", 0.1, 0.001);
-
+            double zero_6bapprox = FindZero("sinapprox", 0.1, 0.001);
             double zero6_c = FindZero("sin", 1.55, 0.001);
+            double zero6_d = FindZero("exp", 0.0001, 0.000001);
+            double zero6_e = FindZero("tanh", -1, 0.000001);
+            double zero7 = FindZero("landau", 0.5, 0.00001);
 
-            Console.WriteLine("Response 6.b) " + 
+            Console.WriteLine("Response 6.b1) " + 
                 (zero6_b == double.MinValue ||
                             double.IsNegativeInfinity(zero6_b) ||
                             double.IsInfinity(zero6_b) ? "No root found" : zero6_b.ToString()));
+            Console.WriteLine("Response 6.b2) " +
+                (zero_6bapprox == double.MinValue ||
+                            double.IsNegativeInfinity(zero_6bapprox) ||
+                            double.IsInfinity(zero_6bapprox) ? "No root found" : zero_6bapprox.ToString()));
             Console.WriteLine("Response 6.c) " +
                 (zero6_c == double.MinValue ||
                             double.IsNegativeInfinity(zero6_c) ||
                             double.IsInfinity(zero6_c) ? "No root found" : zero6_c.ToString()));
-
-            double zero6_d = FindZero("tanh", -1, 0.000001);
-
             Console.WriteLine("Response 6.d) " +
-                (zero6_d == double.MinValue || 
-                    double.IsNegativeInfinity(zero6_d) ||
-                    double.IsInfinity(zero6_d) ? "No root found" : zero6_d.ToString()));
-
-            double zero7 = FindZero("landau", 0.5, 0.00001);
-
+                (zero6_d == double.MinValue ||
+                            double.IsNegativeInfinity(zero6_d) ||
+                            double.IsInfinity(zero6_d) ? "No root found" : zero6_d.ToString()));
+            Console.WriteLine("Response 6.e) " +
+                (zero6_e == double.MinValue || 
+                    double.IsNegativeInfinity(zero6_e) ||
+                    double.IsInfinity(zero6_e) ? "No root found" : zero6_e.ToString()));
             Console.WriteLine("Response 7) " +
                 (zero7 == double.MinValue ||
                     double.IsNegativeInfinity(zero7) ||
                     double.IsInfinity(zero7) ? "No root found" : zero7.ToString()));
 
             Console.Read();
-
         }
 
         
+        static void Log(string log)
+        {
+            Console.WriteLine(log);
+            Console.WriteLine();
+        }
+
         /// <summary>
         /// Initialize the FunctionMap with the functions in question.
         /// </summary>
         static void Init()
         {
             FunctionMap.Add("sin", Math.Sin);
+            FunctionMap.Add("sinapprox", Math.Sin);
             FunctionMap.Add("der_sin", Math.Cos);
+            FunctionMap.Add("der_sinapprox", DerivSinApprox);
+            FunctionMap.Add("exp", Math.Exp);
+            FunctionMap.Add("der_exp", Math.Exp);
             FunctionMap.Add("tanh", Tanh);
             FunctionMap.Add("der_tanh", TanhDeriv);
             FunctionMap.Add("landau", Landau);
@@ -90,8 +104,8 @@ namespace Newtons_Method
         /// <returns></returns>
         static double FindZero(string functionKey, double xStart, double epsilon)
         {
-            Console.WriteLine("NEWTON'S METHOD: Finding zeros of function matching key: " + functionKey);
-            Console.WriteLine("Input parameters: x0 = " + xStart + ", eps = " + epsilon);
+            Log("NEWTON'S METHOD: Finding zeros of function matching key: " + functionKey);
+            Log("Input parameters: x0 = " + xStart + ", eps = " + epsilon);
 
             // Apply "der_" marker to produce the key to the derivative function in the map
             string derivKey = string.Join("der_", new object[] { string.Empty, functionKey });
@@ -130,6 +144,18 @@ namespace Newtons_Method
             return iteration > maxIteration ? double.MinValue : zero; 
         }
 
+
+        /// <summary>
+        /// Approximates the derivative of the sin function 
+        /// using the limiting definition of the derivative.
+        /// </summary>
+        /// <param name="x">Where to evaluate the derivative</param>
+        /// <returns></returns>
+        static double DerivSinApprox(double x)
+        {
+            double step = 1e-4;
+            return (Math.Sin(x + step / 2) - Math.Sin(x - step / 2)) / step;
+        }
 
         /// <summary>
         /// A function implementation for problem (6.d)
